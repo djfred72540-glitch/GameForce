@@ -1,0 +1,70 @@
+{
+  "name": "game-force",
+  "version": "1.0.0",
+  "description": "Game Force – jeu d'action en 2D (Windows, Mac, Android)",
+  "author": "Game Force",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win --publish never",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:linux": "electron-builder --linux --publish never",
+    "android:add": "cap add android && python3 scripts/android-patch.py && capacitor-assets generate --android && cap sync android",
+    "android:apk": "cd android && ./gradlew assembleDebug",
+    "web": "python3 -m http.server 8080 --directory www"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/filesystem": "^6.0.2",
+    "@capacitor/share": "^6.0.2",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.gameforce.app",
+    "productName": "Game Force",
+    "copyright": "Game Force",
+    "artifactName": "GameForce-${version}-${os}-${arch}.${ext}",
+    "directories": { "buildResources": "build", "output": "dist" },
+    "files": ["electron/**/*", "www/**/*", "package.json"],
+    "asar": true,
+    "win": {
+      "icon": "build/icon.png",
+      "target": [{ "target": "nsis", "arch": ["x64"] }]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Game Force",
+      "artifactName": "GameForce-Setup-${version}-${arch}.${ext}"
+    },
+    "mac": {
+      "icon": "build/icon.png",
+      "category": "public.app-category.action-games",
+      "target": [{ "target": "dmg", "arch": ["x64", "arm64"] }],
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "title": "Game Force",
+      "artifactName": "GameForce-${version}-mac-${arch}.${ext}",
+      "contents": [
+        { "x": 130, "y": 220 },
+        { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "category": "Game",
+      "target": ["AppImage"]
+    }
+  }
+}

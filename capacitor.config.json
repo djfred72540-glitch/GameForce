@@ -1,0 +1,8 @@
+{
+  "appId": "com.gameforce.app",
+  "appName": "Game Force",
+  "webDir": "www",
+  "backgroundColor": "#05070d",
+  "server": { "androidScheme": "https" },
+  "android": { "allowMixedContent": false }
+}
