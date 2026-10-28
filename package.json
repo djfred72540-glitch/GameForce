@@ -33,6 +33,7 @@
     "directories": { "buildResources": "build", "output": "dist" },
     "files": ["electron/**/*", "www/**/*", "package.json"],
     "asar": true,
+    "afterPack": "scripts/adhoc-sign.js",
     "win": {
       "icon": "build/icon.png",
       "target": [{ "target": "nsis", "arch": ["x64"] }]
@@ -50,6 +51,7 @@
       "icon": "build/icon.png",
       "category": "public.app-category.action-games",
       "target": [{ "target": "dmg", "arch": ["x64", "arm64"] }],
+      "identity": null,
       "hardenedRuntime": false,
       "gatekeeperAssess": false
     },
