@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Game Force – Jouer en ligne ou télécharger</title>
+<meta name="description" content="Game Force : jeu d'action 2D gratuit. Repousse l'invasion extraterrestre. Joue en ligne ou télécharge le jeu pour Windows, Mac et Android.">
+<meta name="theme-color" content="#05070d">
+<meta property="og:title" content="Game Force">
+<meta property="og:description" content="Repousse l'invasion extraterrestre. Joue en ligne ou télécharge le jeu pour Windows, Mac et Android.">
+<link rel="icon" href="icons/icon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+:root{--bg:#05070d;--fg:#f3f6ff;--mut:#a9b4d0;--cy:#22d3ee;--gold:#fbbf24;--line:rgba(255,255,255,.16)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#bg{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.shade{position:fixed;inset:0;z-index:1;pointer-events:none;background:
+  radial-gradient(ellipse at 50% 46%,rgba(3,5,14,.62) 0%,rgba(3,5,14,.38) 38%,rgba(3,5,14,0) 70%),
+  linear-gradient(180deg,rgba(3,5,14,.35) 0%,rgba(3,5,14,0) 22%,rgba(3,5,14,0) 70%,rgba(3,5,14,.7) 100%)}
+main{position:relative;z-index:2;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:max(28px,env(safe-area-inset-top)) 20px 92px}
+.logo{width:86px;height:86px;filter:drop-shadow(0 0 22px rgba(34,211,238,.55));margin-bottom:6px}
+h1{margin:0;font:900 clamp(44px,9vw,104px)/.95 "Inter","Segoe UI",system-ui,sans-serif;letter-spacing:.03em;text-transform:uppercase;
+  background:linear-gradient(180deg,#ffffff 8%,#9ff3ff 46%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(34,211,238,.55)) drop-shadow(0 4px 0 rgba(0,20,40,.55))}
+.tag{margin:14px 0 30px;font-size:clamp(15px,2.2vw,21px);color:#d4defa;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 2px 14px rgba(0,0,0,.8)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:14px;text-decoration:none;color:var(--fg);border-radius:16px;font-weight:700;cursor:pointer;border:1px solid var(--line);transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.play{padding:20px 56px;font-size:clamp(20px,3vw,28px);letter-spacing:.04em;color:#03121a;border:0;
+  background:linear-gradient(180deg,#7df9ff 0%,#22d3ee 55%,#0aa6c4 100%);box-shadow:0 0 0 1px rgba(255,255,255,.4) inset,0 10px 40px rgba(34,211,238,.45),0 0 70px rgba(34,211,238,.28);animation:pulse 2.8s ease-in-out infinite}
+.play:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 1px rgba(255,255,255,.5) inset,0 14px 50px rgba(34,211,238,.6),0 0 90px rgba(34,211,238,.4)}
+.play svg{width:26px;height:26px}
+@keyframes pulse{50%{box-shadow:0 0 0 1px rgba(255,255,255,.4) inset,0 10px 40px rgba(34,211,238,.3),0 0 40px rgba(34,211,238,.14)}}
+.sep{display:flex;align-items:center;gap:14px;margin:34px 0 16px;color:var(--mut);font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+.sep:before,.sep:after{content:"";width:clamp(30px,8vw,90px);height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45))}
+.sep:after{transform:scaleX(-1)}
+.dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:min(900px,100%)}
+.dlb{position:relative;justify-content:flex-start;padding:16px 20px;text-align:left;background:rgba(10,16,38,.66);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.dlb:hover{transform:translateY(-3px);border-color:rgba(34,211,238,.8);background:rgba(14,24,56,.8);box-shadow:0 12px 34px rgba(0,0,0,.45),0 0 26px rgba(34,211,238,.25)}
+.dlb svg{flex:none;width:34px;height:34px;color:var(--cy)}
+.dlb b{display:block;font-size:15px;line-height:1.25}
+.dlb small{display:block;margin-top:2px;font-weight:500;font-size:12.5px;color:var(--mut)}
+.dlb.rec{border-color:rgba(251,191,36,.85);box-shadow:0 0 0 1px rgba(251,191,36,.35),0 0 28px rgba(251,191,36,.2)}
+.dlb.rec:after{content:"Pour ton appareil";position:absolute;top:-10px;right:14px;background:var(--gold);color:#241a02;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:99px;padding:2px 10px}
+.hint{margin:18px 0 0;max-width:680px;color:var(--mut);font-size:13.5px}
+.hint summary{cursor:pointer;display:inline-block;color:#cfe0ff;text-decoration:underline;text-underline-offset:3px}
+.hint p{margin:8px 0 0;text-align:left;background:rgba(6,10,26,.78);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+footer{position:fixed;z-index:2;left:0;right:0;bottom:0;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;padding:14px 16px max(14px,env(safe-area-inset-bottom));font-size:13px;color:var(--mut);background:linear-gradient(0deg,rgba(3,5,14,.78),rgba(3,5,14,0))}
+footer a{color:#cfe0ff;text-underline-offset:3px}
+@media (max-width:760px){.dl{grid-template-columns:1fr;max-width:380px}.play{padding:18px 34px}.logo{width:68px;height:68px}.tag{margin-bottom:24px}main{padding-bottom:130px}}
+@media (max-height:560px) and (orientation:landscape){main{padding-top:16px;padding-bottom:64px}.logo{display:none}.tag{margin:8px 0 16px}.sep{margin:18px 0 10px}}
+@media (prefers-reduced-motion:reduce){.play{animation:none}.btn{transition:none}}
+
+.ctl{margin:26px 0 0;width:min(900px,100%);padding:18px 20px 20px;border-radius:18px;background:rgba(10,14,30,.74);border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ctl h2{margin:0 0 14px;font-size:clamp(16px,2.4vw,22px);font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#6fe3f7;text-shadow:0 0 14px rgba(34,211,238,.45)}
+.ctl .g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ctl .c{padding:12px 10px;border-radius:12px;background:rgba(4,6,14,.7);border:1px solid rgba(255,255,255,.08)}
+.ctl small{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.ctl b{display:block;margin-top:6px;font-size:clamp(14px,1.9vw,17px);letter-spacing:.06em;text-transform:uppercase}
+.ctl .c:nth-child(1) b{color:#6fe3f7}.ctl .c:nth-child(2) b{color:#c4a1ff}.ctl .c:nth-child(3) b{color:#ff8fc0}
+@media (max-width:760px){.ctl .g{grid-template-columns:1fr}}
+@media (max-height:560px) and (orientation:landscape){main{justify-content:flex-start}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="shade"></div>
+
+<main>
+  <svg class="logo" viewBox="0 0 100 100" role="img" aria-label="Game Force">
+    <defs><linearGradient id="hx" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7df9ff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+    <polygon points="50,5 89,27.5 89,72.5 50,95 11,72.5 11,27.5" fill="#0a1228" stroke="url(#hx)" stroke-width="3.5" stroke-linejoin="round"/>
+    <text x="50" y="52" text-anchor="middle" font-family="Inter,Segoe UI,system-ui,sans-serif" font-weight="900" font-size="30" fill="#fff">GF</text>
+    <polygon points="54,56 42,70 50,70 46,84 61,66 52,66" fill="#fbbf24"/>
+  </svg>
+  <h1>Game Force</h1>
+  <p class="tag">La dernière unité de la Terre</p>
+
+  <a class="btn play" href="index2.html">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>
+    Jouer en ligne
+  </a>
+
+  <div class="sep">ou télécharge le jeu</div>
+
+  <div class="dl">
+    <a class="btn dlb" data-os="win" href="GameForcex64.exe" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="12.5" rx="1.8"/><path d="M8 20.5h8M12 16.5v4"/></svg>
+      <span><b>Télécharger le jeu pour Windows</b><small>Installateur .exe</small></span>
+    </a>
+    <a class="btn dlb" data-os="mac" href="mac-dmg.zip" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="5" width="15" height="10.5" rx="1.6"/><path d="M2 19h20l-1.6-3.5H3.6z"/></svg>
+      <span><b>Télécharger le jeu pour Mac</b><small>Fichier .dmg (dans un .zip)</small></span>
+    </a>
+    <a class="btn dlb" data-os="android" href="GameForce.apk" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.4"/><path d="M10.5 18.5h3"/></svg>
+      <span><b>Télécharger le jeu sur Android</b><small>Application .apk</small></span>
+    </a>
+  </div>
+
+  <details class="hint">
+    <summary>Aide à l’installation</summary>
+    <p><b>Windows :</b> si « Windows a protégé votre ordinateur » s’affiche, clique sur <i>Informations complémentaires</i> puis <i>Exécuter quand même</i>.<br>
+    <b>Mac :</b> décompresse le .zip, ouvre le .dmg et glisse le jeu dans Applications. Au premier lancement : clic droit sur l’app → <i>Ouvrir</i>.<br>
+    <b>Android :</b> ouvre le fichier .apk et autorise l’installation d’applications inconnues quand le téléphone te le demande.</p>
+  </details>
+
+  <section class="ctl" aria-label="Contrôles du jeu">
+    <h2>⌨ Contrôles du jeu</h2>
+    <div class="g">
+      <div class="c"><small>Se déplacer</small><b>← / → / ↑ / ↓ ou Q / D</b></div>
+      <div class="c"><small>Sauter</small><b>↑ / Z / Espace</b></div>
+      <div class="c"><small>Tirer / Attaquer</small><b>K / Clic gauche</b></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Gratuit · Sans inscription · Sans son sur cette page</span>
+  <a href="cgu-confidentialite.html#cgu">Conditions d’utilisation</a>
+  <a href="cgu-confidentialite.html#priv">Confidentialité</a>
+</footer>
+
+<script>
+/* ===== Fond animé : la ville du jeu, les soucoupes et les héros. Aucun son. ===== */
+(function(){
+"use strict";
+const cv=document.getElementById("bg"),ctx=cv.getContext("2d"),LW=1280,LH=720,GROUND=624;
+const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let S=1,OX=0,OY=0,DPR=1;
+function fit(){DPR=Math.min(window.devicePixelRatio||1,1.5);cv.width=Math.round(innerWidth*DPR);cv.height=Math.round(innerHeight*DPR);S=Math.max(cv.width/LW,cv.height/LH);OX=(cv.width-LW*S)/2;OY=(cv.height-LH*S)/2;}
+addEventListener("resize",fit);fit();
+
+let seed=7;const R=()=>(seed=(seed*1664525+1013904223)>>>0)/4294967296,rnd=(a,b)=>a+(b-a)*R(),clamp=(v,a,b)=>v<a?a:v>b?b:v;
+
+/* Dégradé de ciel + étoiles */
+const sky=document.createElement("canvas");sky.width=4;sky.height=LH;
+(function(){const g=sky.getContext("2d"),gr=g.createLinearGradient(0,0,0,LH);gr.addColorStop(0,"#050820");gr.addColorStop(.38,"#231452");gr.addColorStop(.7,"#8a2f5e");gr.addColorStop(1,"#e0663f");g.fillStyle=gr;g.fillRect(0,0,4,LH)})();
+const stars=Array.from({length:120},()=>({x:R()*LW,y:R()*LH*.55,r:rnd(.5,1.6),p:R()*6.28,s:rnd(.6,2.2)}));
+
+/* Couches de gratte-ciel (tuiles de 2560 px qui défilent en boucle) */
+function glowDot(c){const k=document.createElement("canvas");k.width=k.height=64;const g=k.getContext("2d"),r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,"rgba("+c+",1)");r.addColorStop(1,"rgba("+c+",0)");g.fillStyle=r;g.fillRect(0,0,64,64);return k}
+const GL={cy:glowDot("34,211,238"),pk:glowDot("255,60,170"),am:glowDot("255,170,80"),wh:glowDot("255,240,220"),rd:glowDot("255,70,90")};
+function layer(base,hMin,hMax,wMin,wMax,c0,c1,dens,neon){
+  const W=2560,c=document.createElement("canvas");c.width=W;c.height=LH;const g=c.getContext("2d");
+  for(let x=0;x<W;){let w=rnd(wMin,wMax);if(W-x<wMax*1.4)w=W-x;
+    const h=rnd(hMin,hMax),y=base-h,gr=g.createLinearGradient(0,y,0,base);gr.addColorStop(0,c0);gr.addColorStop(1,c1);
+    g.fillStyle=gr;g.fillRect(x,y,w-2,h);g.fillStyle="rgba(120,200,255,.25)";g.fillRect(x,y,1.5,h);g.fillStyle="rgba(255,255,255,.07)";g.fillRect(x,y,w-2,2);
+    if(R()<.4){g.fillStyle=c0;g.fillRect(x+w/2-1,y-30,2,30);g.fillStyle="#ff3355";g.fillRect(x+w/2-1.5,y-32,3,3)}
+    for(let wy=y+10;wy<base-10;wy+=11)for(let wx=x+6;wx<x+w-10;wx+=9)if(R()<dens){const p=R();
+      g.fillStyle=p<.6?"rgba(255,200,120,"+(.3+R()*.5)+")":p<.85?"rgba(120,230,255,.6)":"rgba(255,90,170,.6)";g.fillRect(wx,wy,4,6)}
+    if(neon&&R()<.42){const k=R()<.5?"cy":"pk",sy=y+h*.25+R()*h*.3;
+      g.fillStyle=k==="cy"?"#22d3ee":"#ff3caa";g.fillRect(x+w*.2,sy,w*.55,4);g.globalCompositeOperation="lighter";g.globalAlpha=.75;g.drawImage(GL[k],x+w*.1,sy-w*.3,w*.75,w*.6);g.globalAlpha=1;g.globalCompositeOperation="source-over"}
+    x+=w}
+  return c}
+const LY=[
+  {c:layer(520,120,250,70,130,"#2d2058","#43255c",.18,0),sp:6,y:0},
+  {c:layer(572,150,320,90,170,"#1a2048","#271f4d",.26,1),sp:14,y:0},
+  {c:layer(626,170,380,110,200,"#0b0f24","#0a0c1e",.34,1),sp:30,y:0}
+];
+
+/* Soucoupes */
+const ufos=[];
+function mkUfo(x){return{x:x!==undefined?x:-120,y:rnd(70,300),vx:rnd(14,34),s:rnd(.7,1.25),ph:R()*6.28,beam:0,beamT:rnd(2,9),flash:0,hp:3}}
+for(let i=0;i<6;i++)ufos.push(mkUfo(rnd(40,LW-40)));
+function drawUfo(u,t){
+  ctx.save();ctx.translate(u.x,u.y+Math.sin(t*1.3+u.ph)*6);ctx.scale(u.s,u.s);
+  if(u.beam>.01){const b=u.beam,len=GROUND-(u.y+6)/1,w=70+Math.sin(t*3+u.ph)*6,g=ctx.createLinearGradient(0,8,0,len);g.addColorStop(0,"rgba(170,255,225,"+(.5*b)+")");g.addColorStop(1,"rgba(120,255,200,"+(.08*b)+")");
+    ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(-16,10);ctx.lineTo(16,10);ctx.lineTo(w,len);ctx.lineTo(-w,len);ctx.closePath();ctx.fill();
+    ctx.globalCompositeOperation="lighter";ctx.globalAlpha=.5*b;ctx.drawImage(GL.cy,-w*1.3,len-26,w*2.6,52);ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over"}
+  ctx.globalCompositeOperation="lighter";ctx.globalAlpha=.45;ctx.drawImage(GL.cy,-62,-34,124,90);ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";
+  const dg=ctx.createRadialGradient(-6,-14,2,0,-8,22);dg.addColorStop(0,"rgba(200,255,240,.95)");dg.addColorStop(1,"rgba(60,170,150,.85)");ctx.fillStyle=dg;ctx.beginPath();ctx.ellipse(0,-6,19,17,0,Math.PI,0);ctx.fill();
+  const bg=ctx.createLinearGradient(0,-4,0,14);bg.addColorStop(0,"#b9c9d6");bg.addColorStop(.5,"#6e8190");bg.addColorStop(1,"#2c3a47");ctx.fillStyle=bg;ctx.beginPath();ctx.ellipse(0,4,46,12,0,0,6.3);ctx.fill();
+  ctx.fillStyle="rgba(255,255,255,.28)";ctx.beginPath();ctx.ellipse(-8,0,28,3.4,0,0,6.3);ctx.fill();
+  for(let i=0;i<7;i++){const a=-.9+i*.3,on=((t*2+i+u.ph)%3)<1.5;ctx.fillStyle=on?"#ffd27a":"#a26a2a";ctx.beginPath();ctx.arc(Math.sin(a)*34,6+Math.cos(a)*3.5,2.1,0,6.3);ctx.fill()}
+  if(u.flash>0){ctx.globalCompositeOperation="lighter";ctx.globalAlpha=u.flash;ctx.drawImage(GL.wh,-60,-50,120,100);ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over"}
+  ctx.restore()}
+
+/* Héros (silhouettes éclairées par le néon) */
+const heroes=[{x:150,c:"#a8f3ff",k:0},{x:236,c:"#ffd27a",k:1},{x:318,c:"#d6a2ff",k:2}].map((h,i)=>({...h,cd:rnd(.6,2.4),rec:0,ang:-.7,bob:i*1.7}));
+function drawHero(h,t){
+  const x=h.x,y=GROUND+((h.k*13)%7),b=Math.sin(t*2+h.bob)*.7;ctx.save();ctx.translate(x,y);
+  ctx.fillStyle="rgba(0,0,0,.4)";ctx.beginPath();ctx.ellipse(0,2,26,5,0,0,6.3);ctx.fill();
+  const body="#0a0e1c",rim=h.c;
+  ctx.fillStyle=body;ctx.fillRect(-9,-44,8,44);ctx.fillRect(1,-44,8,44);ctx.fillRect(-12,-5,12,5);ctx.fillRect(0,-5,13,5);
+  ctx.beginPath();ctx.moveTo(-14,-92+b);ctx.lineTo(13,-92+b);ctx.lineTo(11,-42);ctx.lineTo(-11,-42);ctx.closePath();ctx.fill();
+  if(h.k===2){ctx.fillStyle="#7a1d1d";ctx.beginPath();ctx.moveTo(-12,-90+b);ctx.quadraticCurveTo(-34,-60,-34,-24);ctx.lineTo(-12,-30);ctx.closePath();ctx.fill()}
+  ctx.beginPath();ctx.arc(1,-103+b,9,0,6.3);ctx.fill();
+  if(h.k===1){ctx.fillStyle=rim;ctx.fillRect(-7,-108+b,16,2.2)}else if(h.k===2){ctx.fillStyle="#9b5be0";ctx.beginPath();ctx.arc(-3,-104+b,9.6,Math.PI*.95,Math.PI*2.1);ctx.fill()}
+  /* bras + fusil, orientés vers la cible */
+  ctx.save();ctx.translate(6,-78+b);ctx.rotate(h.ang);ctx.translate(-h.rec,0);
+  ctx.fillStyle="#12182a";ctx.fillRect(-2,-4,46,8);ctx.fillRect(40,-2.5,26,5);ctx.fillRect(10,-9,16,5);ctx.fillRect(14,4,6,12);
+  ctx.fillStyle=rim;ctx.fillRect(44,-1,20,1.6);ctx.globalAlpha=.9;ctx.fillRect(10,-9,16,1.4);ctx.globalAlpha=1;
+  if(h.rec>.8){ctx.globalCompositeOperation="lighter";ctx.drawImage(GL.am,56,-22,44,44);ctx.globalCompositeOperation="source-over"}
+  ctx.restore();
+  /* liseré de lumière */
+  ctx.strokeStyle=rim;ctx.globalAlpha=.55;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(13,-92+b);ctx.lineTo(11,-42);ctx.lineTo(9,-4);ctx.moveTo(10,-103+b);ctx.arc(1,-103+b,9,-.6,.9);ctx.stroke();ctx.globalAlpha=1;
+  ctx.restore()}
+
+/* Tirs, explosions, pluie */
+const shots=[],parts=[],rings=[];
+const rain=Array.from({length:110},()=>({x:R()*LW*1.2,y:R()*LH,v:rnd(520,820),l:rnd(10,22)}));
+function boom(x,y,big){
+  for(let i=0;i<(big?26:9);i++){const a=R()*6.28,s=rnd(40,big?320:150);parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-30,l:rnd(.3,big?1:.5),t:0,c:R()<.5?"255,190,90":"130,240,255"})}
+  if(big)rings.push({x,y,t:0})}
+
+let last=performance.now(),T=0;
+function step(dt){
+  T+=dt;
+  for(const u of ufos){u.x+=u.vx*dt;u.flash=Math.max(0,u.flash-dt*3);u.beamT-=dt;
+    if(u.beamT<=0){u.beamT=rnd(3,8);u.tgt=u.beam<.5?1:0}
+    u.beam+=((u.tgt||0)-u.beam)*Math.min(1,dt*1.6);
+    if(u.x>LW+140){Object.assign(u,mkUfo())}}
+  for(const h of heroes){h.cd-=dt;h.rec=Math.max(0,h.rec-dt*40);
+    let tg=null,bd=1e9;for(const u of ufos)if(u.x>40&&u.x<LW-40){const d=Math.hypot(u.x-h.x,u.y-(GROUND-80));if(d<bd){bd=d;tg=u}}
+    if(tg){const want=Math.atan2(tg.y-(GROUND-78),tg.x-(h.x+6));h.ang+=(want-h.ang)*Math.min(1,dt*6);
+      if(h.cd<=0){h.cd=rnd(1.1,2.6);h.rec=5;const mx=h.x+6+Math.cos(h.ang)*64,my=GROUND-78+Math.sin(h.ang)*64,d=Math.hypot(tg.x-mx,tg.y-my),sp=900;
+        shots.push({x:mx,y:my,vx:(tg.x-mx)/d*sp,vy:(tg.y-my)/d*sp,l:d/sp,u:tg,c:h.c});boom(mx,my,0)}}}
+  for(let i=shots.length-1;i>=0;i--){const s=shots[i];s.x+=s.vx*dt;s.y+=s.vy*dt;s.l-=dt;
+    if(s.l<=0){const u=s.u;u.flash=1;u.hp--;boom(s.x,s.y,0);if(u.hp<=0){boom(u.x,u.y,1);Object.assign(u,mkUfo())}shots.splice(i,1)}}
+  for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.t+=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=380*dt;if(p.t>p.l)parts.splice(i,1)}
+  for(let i=rings.length-1;i>=0;i--){rings[i].t+=dt;if(rings[i].t>.7)rings.splice(i,1)}
+  for(const r of rain){r.y+=r.v*dt;r.x-=r.v*.18*dt;if(r.y>LH+30){r.y=-30;r.x=R()*LW*1.3}}
+}
+function draw(){
+  ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle="#050820";ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.setTransform(S,0,0,S,OX,OY);
+  /* ciel (étiré pour couvrir tout l'écran) */
+  ctx.drawImage(sky,-LW,-LH,LW*3,LH*3.0);ctx.drawImage(sky,0,0,LW,LH);
+  for(const s of stars){ctx.globalAlpha=.35+.65*Math.abs(Math.sin(T*s.s+s.p));ctx.fillStyle="#fff";ctx.fillRect(s.x,s.y,s.r,s.r)}ctx.globalAlpha=1;
+  /* planète */
+  const pg=ctx.createRadialGradient(1010,150,6,1020,160,120);pg.addColorStop(0,"#ffd9a6");pg.addColorStop(.6,"#e08a5a");pg.addColorStop(1,"rgba(120,50,90,.0)");
+  ctx.globalCompositeOperation="lighter";ctx.drawImage(GL.am,880,20,280,280);ctx.globalCompositeOperation="source-over";ctx.fillStyle="rgba(255,214,170,.92)";ctx.beginPath();ctx.arc(1020,160,62,0,6.3);ctx.fill();
+  ctx.fillStyle="rgba(150,70,100,.25)";ctx.beginPath();ctx.arc(1004,148,22,0,6.3);ctx.arc(1042,178,14,0,6.3);ctx.fill();
+  /* soucoupes lointaines derrière les 2 premières couches */
+  const far=ufos.filter(u=>u.s<.95),near=ufos.filter(u=>u.s>=.95);
+  for(let i=0;i<LY.length;i++){const L=LY[i],off=(T*L.sp)%2560;
+    for(let k=-1;k<=1;k++)ctx.drawImage(L.c,-off+k*2560,L.y);
+    if(i===0)for(const u of far)drawUfo(u,T);
+    if(i===1)for(const u of near)drawUfo(u,T);
+    if(i===1){ctx.globalCompositeOperation="lighter";ctx.fillStyle="rgba(255,120,70,.08)";ctx.fillRect(0,GROUND-120,LW,130);ctx.globalCompositeOperation="source-over"}}
+  /* sol */
+  const gg=ctx.createLinearGradient(0,GROUND,0,LH);gg.addColorStop(0,"#1a1226");gg.addColorStop(.12,"#0b0a16");gg.addColorStop(1,"#05060c");ctx.fillStyle=gg;ctx.fillRect(-LW,GROUND,LW*3,LH*2);
+  ctx.fillStyle="rgba(255,120,80,.38)";ctx.fillRect(-LW,GROUND,LW*3,2);
+  ctx.fillStyle="rgba(255,255,255,.07)";const dx=(T*90)%120;for(let x=-120;x<LW+120;x+=120)ctx.fillRect(x-dx,GROUND+44,60,3);
+  for(const h of heroes)drawHero(h,T);
+  /* tirs */
+  ctx.globalCompositeOperation="lighter";
+  for(const s of shots){const m=Math.hypot(s.vx,s.vy),ux=s.vx/m,uy=s.vy/m;ctx.strokeStyle="rgba(255,255,255,.95)";ctx.lineWidth=2.6;ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-ux*34,s.y-uy*34);ctx.stroke();
+    ctx.strokeStyle="rgba("+(s.c==="#ffd27a"?"255,190,90":s.c==="#d6a2ff"?"200,150,255":"120,240,255")+",.55)";ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-ux*42,s.y-uy*42);ctx.stroke()}
+  for(const p of parts){const a=1-p.t/p.l;ctx.fillStyle="rgba("+p.c+","+a+")";ctx.fillRect(p.x-1.5,p.y-1.5,3,3)}
+  for(const r of rings){const k=r.t/.7;ctx.strokeStyle="rgba(255,200,120,"+(1-k)+")";ctx.lineWidth=4*(1-k)+1;ctx.beginPath();ctx.arc(r.x,r.y,10+k*90,0,6.3);ctx.stroke();ctx.globalAlpha=1-k;ctx.drawImage(GL.am,r.x-70,r.y-70,140,140);ctx.globalAlpha=1}
+  ctx.globalCompositeOperation="source-over";
+  /* pluie */
+  ctx.strokeStyle="rgba(190,215,255,.22)";ctx.lineWidth=1;ctx.beginPath();for(const r of rain){ctx.moveTo(r.x,r.y);ctx.lineTo(r.x+r.l*.18,r.y-r.l)}ctx.stroke();
+}
+let raf=0;
+function frame(n){const dt=Math.min((n-last)/1000,.05);last=n;step(dt);draw();raf=requestAnimationFrame(frame)}
+if(still){for(let i=0;i<260;i++)step(1/30);draw();addEventListener("resize",draw)}
+else{raf=requestAnimationFrame(n=>{last=n;frame(n)});
+  document.addEventListener("visibilitychange",()=>{if(document.hidden)cancelAnimationFrame(raf);else{last=performance.now();raf=requestAnimationFrame(frame)}})}
+})();
+
+/* Met en avant le téléchargement qui correspond à l'appareil */
+(function(){
+  const ua=navigator.userAgent||"",pf=(navigator.userAgentData&&navigator.userAgentData.platform)||navigator.platform||"";
+  let os="";
+  if(/Android/i.test(ua))os="android";
+  else if(/iPhone|iPad|iPod/i.test(ua))os="";
+  else if(/Win/i.test(pf)||/Windows/i.test(ua))os="win";
+  else if(/Mac/i.test(pf)||/Macintosh/i.test(ua))os="mac";
+  if(os){const b=document.querySelector('.dlb[data-os="'+os+'"]');if(b)b.classList.add("rec")}
+})();
+</script>
+</body>
+</html>
